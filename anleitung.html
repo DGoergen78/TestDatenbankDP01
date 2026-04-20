@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anleitung: PostgreSQL-Datenbank in Codespaces starten</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --text: #1f2937;
+      --muted: #4b5563;
+      --panel: #ffffff;
+      --line: #d7dde8;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --code-bg: #111827;
+      --code-text: #f9fafb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    main {
+      width: min(920px, calc(100% - 32px));
+      margin: 40px auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(31, 41, 55, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.15;
+    }
+
+    h2 {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: 1.35rem;
+    }
+
+    p {
+      color: var(--muted);
+    }
+
+    a {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    ol,
+    ul {
+      padding-left: 1.4rem;
+    }
+
+    li {
+      margin: 10px 0;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.95em;
+    }
+
+    pre {
+      overflow-x: auto;
+      margin: 12px 0 20px;
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--code-bg);
+      color: var(--code-text);
+    }
+
+    pre code {
+      color: inherit;
+    }
+
+    .note {
+      margin: 20px 0;
+      padding: 16px;
+      border-left: 5px solid var(--accent);
+      background: #eef4ff;
+      border-radius: 6px;
+    }
+
+    .login {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px;
+    }
+
+    .login th,
+    .login td {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      text-align: left;
+    }
+
+    .login th {
+      width: 180px;
+      background: #f0f4fa;
+    }
+
+    .button-link {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      background: var(--accent);
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .button-link:hover {
+      background: var(--accent-dark);
+    }
+
+    @media (max-width: 640px) {
+      main {
+        margin: 16px auto;
+        padding: 20px;
+      }
+
+      .login th,
+      .login td {
+        display: block;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>PostgreSQL-Datenbank in GitHub Codespaces starten</h1>
+    <p>
+      In dieser Anleitung startest du eine fertige PostgreSQL-Testdatenbank mit Docker.
+      Die Datenbank enthaelt Tabellen fuer Mitglieder, Buchungen, Kurse und Trainer.
+    </p>
+
+    <p>
+      Repository:
+      <a href="https://github.com/DGoergen78/TestDatenbankDP01" target="_blank" rel="noreferrer">
+        https://github.com/DGoergen78/TestDatenbankDP01
+      </a>
+    </p>
+
+    <div class="note">
+      <strong>Wichtig:</strong> Du musst das Repository nicht vorher clonen.
+      Wenn du Codespaces verwendest, lädt GitHub den Code automatisch.
+    </div>
+
+    <h2>Voraussetzung</h2>
+    <ul>
+      <li>Du brauchst einen GitHub-Account.</li>
+      <li>Du musst bei GitHub angemeldet sein.</li>
+    </ul>
+
+    <h2>Codespace starten</h2>
+    <ol>
+      <li>Oeffne das Repository auf GitHub.</li>
+      <li>Klicke auf den gruenen Button <strong>Code</strong>.</li>
+      <li>Waehle den Reiter <strong>Codespaces</strong>.</li>
+      <li>Klicke auf <strong>Create codespace on main</strong>.</li>
+      <li>Warte, bis Codespaces vollstaendig geladen ist.</li>
+    </ol>
+
+    <p>
+      <a class="button-link" href="https://github.com/DGoergen78/TestDatenbankDP01" target="_blank" rel="noreferrer">
+        Repository oeffnen
+      </a>
+    </p>
+
+    <h2>Datenbank starten</h2>
+    <p>Oeffne in Codespaces das Terminal und fuehre diesen Befehl aus:</p>
+
+    <pre><code>docker compose up -d</code></pre>
+
+    <p>Pruefe danach, ob die Container laufen:</p>
+
+    <pre><code>docker compose ps</code></pre>
+
+    <h2>Datenbank im Browser oeffnen</h2>
+    <ol>
+      <li>Oeffne unten in Codespaces den Bereich <strong>Ports</strong>.</li>
+      <li>Suche den Port <strong>8080</strong>.</li>
+      <li>Klicke beim Port 8080 auf das Browser- oder Globus-Symbol.</li>
+    </ol>
+
+    <div class="note">
+      <strong>Nicht Port 5432 im Browser oeffnen.</strong>
+      Port 5432 ist der PostgreSQL-Datenbankport. Die Browseroberflaeche laeuft ueber Port 8080.
+    </div>
+
+    <h2>Login in Adminer</h2>
+    <p>In der Browseroberflaeche meldest du dich mit diesen Daten an:</p>
+
+    <table class="login">
+      <tr>
+        <th>System</th>
+        <td>PostgreSQL</td>
+      </tr>
+      <tr>
+        <th>Server</th>
+        <td>postgres</td>
+      </tr>
+      <tr>
+        <th>Username</th>
+        <td>kursuser</td>
+      </tr>
+      <tr>
+        <th>Password</th>
+        <td>kurspass</td>
+      </tr>
+      <tr>
+        <th>Database</th>
+        <td>kursdatenbank</td>
+      </tr>
+    </table>
+
+    <h2>Erste SQL-Befehle</h2>
+    <p>Nach dem Login kannst du SQL-Befehle testen, zum Beispiel:</p>
+
+    <pre><code>SELECT * FROM mitglied;</code></pre>
+
+    <pre><code>SELECT COUNT(*) FROM mitglied;
+SELECT COUNT(*) FROM kurs;
+SELECT COUNT(*) FROM trainer;
+SELECT COUNT(*) FROM buchung;</code></pre>
+
+    <h2>Weitere SQL-Beispiele</h2>
+    <p>Kurse von Trainer Markus Weber mit Anzahl der Buchungen:</p>
+
+    <pre><code>SELECT K.K_Name, T.T_Nachname, T.T_Vorname, COUNT(B.K_ID) AS Anzahl_Buchungen
+FROM Kurs K
+INNER JOIN Trainer T ON K.T_ID = T.T_ID
+LEFT JOIN Buchung B ON K.K_ID = B.K_ID
+WHERE T.T_Vorname = 'Markus' AND T.T_Nachname = 'Weber'
+GROUP BY K.K_Name, T.T_Nachname, T.T_Vorname
+ORDER BY Anzahl_Buchungen DESC;</code></pre>
+
+    <p>Alle Kurse mit Trainername, Startzeit und Preis:</p>
+
+    <pre><code>SELECT
+  K.K_Name,
+  K.K_Startzeit,
+  K.K_Endzeit,
+  K.K_Preis,
+  T.T_Vorname,
+  T.T_Nachname
+FROM Kurs K
+INNER JOIN Trainer T ON K.T_ID = T.T_ID
+ORDER BY K.K_Startzeit;</code></pre>
+
+    <p>Alle Buchungen mit Mitglied, Kurs und Buchungsstatus:</p>
+
+    <pre><code>SELECT
+  M.M_Vorname,
+  M.M_Nachname,
+  K.K_Name,
+  B.B_Datum,
+  B.B_Status
+FROM Buchung B
+INNER JOIN Mitglied M ON B.M_ID = M.M_ID
+INNER JOIN Kurs K ON B.K_ID = K.K_ID
+ORDER BY B.B_Datum DESC;</code></pre>
+
+    <p>Anzahl der Mitglieder pro Tarif:</p>
+
+    <pre><code>SELECT
+  M_Tarif,
+  COUNT(*) AS Anzahl_Mitglieder
+FROM Mitglied
+GROUP BY M_Tarif
+ORDER BY Anzahl_Mitglieder DESC;</code></pre>
+
+    <p>Durchschnittlicher Kurspreis pro Trainer:</p>
+
+    <pre><code>SELECT
+  T.T_Vorname,
+  T.T_Nachname,
+  ROUND(AVG(K.K_Preis), 2) AS Durchschnittspreis
+FROM Trainer T
+INNER JOIN Kurs K ON T.T_ID = K.T_ID
+GROUP BY T.T_Vorname, T.T_Nachname
+ORDER BY Durchschnittspreis DESC;</code></pre>
+
+    <p>Die 10 meistgebuchten Kurse:</p>
+
+    <pre><code>SELECT
+  K.K_Name,
+  COUNT(B.B_ID) AS Anzahl_Buchungen
+FROM Kurs K
+LEFT JOIN Buchung B ON K.K_ID = B.K_ID
+GROUP BY K.K_Name
+ORDER BY Anzahl_Buchungen DESC
+LIMIT 10;</code></pre>
+
+    <p>Mitglieder, die den Tarif Premium haben:</p>
+
+    <pre><code>SELECT
+  M_ID,
+  M_Vorname,
+  M_Nachname,
+  M_Email,
+  M_Tarif
+FROM Mitglied
+WHERE M_Tarif = 'Premium'
+ORDER BY M_Nachname, M_Vorname;</code></pre>
+
+    <p>Buchungen mit dem Status bezahlt:</p>
+
+    <pre><code>SELECT
+  B.B_ID,
+  M.M_Vorname,
+  M.M_Nachname,
+  K.K_Name,
+  B.B_Datum,
+  B.B_Status
+FROM Buchung B
+INNER JOIN Mitglied M ON B.M_ID = M.M_ID
+INNER JOIN Kurs K ON B.K_ID = K.K_ID
+WHERE B.B_Status = 'bezahlt'
+ORDER BY B.B_Datum;</code></pre>
+
+    <p>Kurse mit freien Plaetzen:</p>
+
+    <pre><code>SELECT
+  K.K_Name,
+  K.K_MaxTeilnehmer,
+  COUNT(B.B_ID) AS Anzahl_Buchungen,
+  K.K_MaxTeilnehmer - COUNT(B.B_ID) AS Freie_Plaetze
+FROM Kurs K
+LEFT JOIN Buchung B ON K.K_ID = B.K_ID
+GROUP BY K.K_Name, K.K_MaxTeilnehmer
+ORDER BY Freie_Plaetze DESC;</code></pre>
+
+    <h2>Wenn etwas nicht funktioniert</h2>
+    <p>Starte die Container neu:</p>
+
+    <pre><code>docker compose down
+docker compose up -d</code></pre>
+
+    <p>Wenn weiterhin ein Fehler auftritt, pruefe die laufenden Container:</p>
+
+    <pre><code>docker compose ps</code></pre>
+
+    <h2>Merksatz</h2>
+    <ul>
+      <li><strong>Port 8080</strong> ist fuer den Browser.</li>
+      <li><strong>Port 5432</strong> ist fuer PostgreSQL und wird nicht direkt im Browser geoeffnet.</li>
+    </ul>
+  </main>
+</body>
+</html>
