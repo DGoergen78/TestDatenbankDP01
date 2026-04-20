@@ -1,6 +1,6 @@
 # PostgreSQL Kursdatenbank mit Docker
 
-Dieses kleine Setup startet eine PostgreSQL-Datenbank in einem Container und legt automatisch vier Tabellen an:
+Dieses kleine Setup startet eine PostgreSQL-Datenbank in einem Container und legt automatisch vier Tabellen an. Zusaetzlich wird Adminer als Weboberflaeche gestartet, damit du die Datenbank im Browser ansehen und SQL-Befehle ausfuehren kannst.
 
 - `mitglied`
 - `buchung`
@@ -30,7 +30,21 @@ docker compose up -d
 docker compose ps
 ```
 
-5. Mit der Datenbank verbinden:
+5. Adminer im Browser oeffnen:
+
+In Codespaces den weitergeleiteten Port `8080` oeffnen. Nicht Port `5432` im Browser oeffnen, denn `5432` ist der reine PostgreSQL-Datenbankport.
+
+Login in Adminer:
+
+```text
+System: PostgreSQL
+Server: postgres
+Username: kursuser
+Password: kurspass
+Database: kursdatenbank
+```
+
+6. Alternativ direkt im Terminal mit der Datenbank verbinden:
 
 ```bash
 docker compose exec postgres psql -U kursuser -d kursdatenbank
@@ -99,6 +113,7 @@ docker compose up -d
 ## Verbindungsdaten
 
 - Host in Codespaces/Container: `localhost`
+- Host in Adminer: `postgres`
 - Port: `5432`
 - Datenbank: `kursdatenbank`
 - Benutzer: `kursuser`
