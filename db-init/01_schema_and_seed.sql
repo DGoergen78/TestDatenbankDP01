@@ -44,55 +44,39 @@ CREATE INDEX idx_buchung_m_id ON buchung(m_id);
 CREATE INDEX idx_buchung_k_id ON buchung(k_id);
 CREATE INDEX idx_kurs_t_id ON kurs(t_id);
 
-SELECT setseed(0.42);
-
+-- Trainer
+-- Wichtig: Trainer 6 hat absichtlich keinen Kurs
 INSERT INTO trainer (t_vorname, t_nachname, t_spezialgebiet, t_stundensatz)
 VALUES
   ('Anna', 'Schneider', 'Yoga', 52.00),
   ('Markus', 'Weber', 'Krafttraining', 58.50),
   ('Laura', 'Fischer', 'Pilates', 49.00),
   ('Jonas', 'Becker', 'Ausdauer', 55.00),
-  ('Miriam', 'Hoffmann', 'Tanz und Koordination', 47.50);
+  ('Miriam', 'Hoffmann', 'Tanz und Koordination', 47.50),
+  ('Thomas', 'Lehmann', 'Reha-Sport', 60.00);
 
+-- Kurse
+-- Wichtig: Einige Kurse werden später nicht gebucht
 INSERT INTO kurs (t_id, k_name, k_startzeit, k_endzeit, k_maxteilnehmer, k_preis)
 VALUES
   (1, 'Yoga Basics', '2026-05-04 09:00', '2026-05-04 10:00', 18, 12.00),
   (1, 'Power Yoga', '2026-05-05 18:00', '2026-05-05 19:15', 16, 15.00),
-  (1, 'Meditation und Stretching', '2026-05-06 20:00', '2026-05-06 21:00', 20, 10.00),
-  (1, 'Rückenfit Yoga', '2026-05-07 08:30', '2026-05-07 09:30', 18, 12.00),
   (2, 'Kraftzirkel', '2026-05-04 17:00', '2026-05-04 18:00', 14, 16.00),
   (2, 'Functional Training', '2026-05-05 19:30', '2026-05-05 20:30', 16, 17.00),
-  (2, 'Langhantel Technik', '2026-05-06 18:00', '2026-05-06 19:00', 12, 18.00),
-  (2, 'Core Power', '2026-05-08 12:00', '2026-05-08 12:45', 18, 11.00),
   (3, 'Pilates Einsteiger', '2026-05-04 10:30', '2026-05-04 11:30', 18, 13.00),
   (3, 'Pilates Flow', '2026-05-05 08:30', '2026-05-05 09:30', 18, 14.00),
-  (3, 'Mobility Training', '2026-05-06 16:30', '2026-05-06 17:30', 20, 12.00),
-  (3, 'Faszien Workout', '2026-05-08 17:30', '2026-05-08 18:30', 16, 13.50),
   (4, 'Indoor Cycling', '2026-05-04 19:00', '2026-05-04 20:00', 22, 14.00),
-  (4, 'Lauftechnik', '2026-05-05 07:30', '2026-05-05 08:30', 15, 9.00),
   (4, 'HIIT Express', '2026-05-06 12:15', '2026-05-06 12:45', 20, 10.00),
-  (4, 'Cardio Mix', '2026-05-07 18:30', '2026-05-07 19:30', 22, 13.00),
   (5, 'Zumba', '2026-05-04 20:15', '2026-05-04 21:15', 24, 12.00),
   (5, 'Dance Fitness', '2026-05-05 17:30', '2026-05-05 18:30', 24, 12.50),
-  (5, 'Balance und Koordination', '2026-05-07 10:00', '2026-05-07 11:00', 18, 11.00),
-  (5, 'Step Aerobic', '2026-05-08 19:00', '2026-05-08 20:00', 20, 13.00);
 
-WITH
-  vornamen AS (
-    SELECT ARRAY[
-      'Max','Sophie','Leon','Emma','Paul','Mia','Finn','Lina','Ben','Lea',
-      'Tim','Marie','Noah','Clara','Elias','Hanna','Luis','Julia','Felix','Sarah'
-    ] AS namen
-  ),
-  nachnamen AS (
-    SELECT ARRAY[
-      'Mueller','Schmidt','Schneider','Fischer','Weber','Meyer','Wagner','Becker','Hoffmann','Schulz',
-      'Koch','Bauer','Richter','Klein','Wolf','Neumann','Schwarz','Zimmermann','Braun','Krueger'
-    ] AS namen
-  ),
-  tarife AS (
-    SELECT ARRAY['Basic','Standard','Premium','Student','Senior'] AS werte
-  )
+  -- absichtlich ungebuchte Kurse
+  (1, 'Meditation und Stretching', '2026-05-06 20:00', '2026-05-06 21:00', 20, 10.00),
+  (3, 'Mobility Training', '2026-05-06 16:30', '2026-05-06 17:30', 20, 12.00),
+  (5, 'Balance und Koordination', '2026-05-07 10:00', '2026-05-07 11:00', 18, 11.00);
+
+-- Mitglieder
+-- Wichtig: Mitglieder 9 bis 12 haben absichtlich keine Buchung
 INSERT INTO mitglied (
   m_vorname,
   m_nachname,
@@ -101,34 +85,33 @@ INSERT INTO mitglied (
   m_eintrittsdatum,
   m_tarif
 )
-SELECT
-  v.namen[1 + floor(random() * array_length(v.namen, 1))::int],
-  n.namen[1 + floor(random() * array_length(n.namen, 1))::int],
-  'mitglied' || gs || '@example.test',
-  date '1955-01-01' + floor(random() * 17898)::int,
-  date '2020-01-01' + floor(random() * 2300)::int,
-  t.werte[1 + floor(random() * array_length(t.werte, 1))::int]
-FROM generate_series(1, 200) AS gs
-CROSS JOIN vornamen v
-CROSS JOIN nachnamen n
-CROSS JOIN tarife t;
+VALUES
+  ('Max', 'Mueller', 'max.mueller@example.test', '1998-04-12', '2023-01-10', 'Basic'),
+  ('Sophie', 'Schmidt', 'sophie.schmidt@example.test', '2001-08-03', '2022-11-15', 'Student'),
+  ('Leon', 'Schneider', 'leon.schneider@example.test', '1995-02-20', '2021-06-01', 'Premium'),
+  ('Emma', 'Fischer', 'emma.fischer@example.test', '1988-12-01', '2020-03-20', 'Standard'),
+  ('Paul', 'Weber', 'paul.weber@example.test', '1975-07-09', '2024-02-05', 'Senior'),
+  ('Mia', 'Meyer', 'mia.meyer@example.test', '1999-09-17', '2023-09-01', 'Basic'),
+  ('Finn', 'Wagner', 'finn.wagner@example.test', '1992-05-30', '2021-10-10', 'Standard'),
+  ('Lina', 'Becker', 'lina.becker@example.test', '2003-01-25', '2024-01-01', 'Student'),
 
-WITH
-  statuses AS (
-    SELECT ARRAY['gebucht','bezahlt','storniert','warteliste','teilgenommen'] AS werte
-  ),
-  zufaellige_paare AS (
-    SELECT m.m_id, k.k_id
-    FROM generate_series(1, 200) AS m(m_id)
-    CROSS JOIN generate_series(1, 20) AS k(k_id)
-    ORDER BY random()
-    LIMIT 500
-  )
+  -- absichtlich ohne Buchung
+  ('Ben', 'Hoffmann', 'ben.hoffmann@example.test', '1990-06-18', '2025-01-01', 'Basic'),
+  ('Lea', 'Schulz', 'lea.schulz@example.test', '1985-11-11', '2024-07-01', 'Premium'),
+  ('Tim', 'Koch', 'tim.koch@example.test', '1970-03-04', '2022-05-12', 'Senior'),
+  ('Marie', 'Bauer', 'marie.bauer@example.test', '2002-10-21', '2023-04-15', 'Student');
+
+-- Buchungen
+-- Es werden nur einige Mitglieder und nur einige Kurse gebucht
 INSERT INTO buchung (m_id, k_id, b_datum, b_status)
-SELECT
-  p.m_id,
-  p.k_id,
-  date '2026-04-01' + floor(random() * 50)::int,
-  s.werte[1 + floor(random() * array_length(s.werte, 1))::int]
-FROM zufaellige_paare p
-CROSS JOIN statuses s;
+VALUES
+  (1, 1, '2026-04-20', 'bezahlt'),
+  (1, 3, '2026-04-21', 'gebucht'),
+  (2, 1, '2026-04-22', 'teilgenommen'),
+  (2, 5, '2026-04-23', 'bezahlt'),
+  (3, 2, '2026-04-22', 'gebucht'),
+  (4, 4, '2026-04-24', 'storniert'),
+  (5, 7, '2026-04-25', 'warteliste'),
+  (6, 8, '2026-04-25', 'gebucht'),
+  (7, 9, '2026-04-26', 'bezahlt'),
+  (8, 10, '2026-04-26', 'teilgenommen');
